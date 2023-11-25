@@ -73,7 +73,7 @@ module.exports.changeUserAvatar = (req, res, next) => {
     )
     .then((user) => res.status(200).send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(new BadRequest('Переданы некорректные данные при обновлении профиля.'));
       } else next(err);
     });
