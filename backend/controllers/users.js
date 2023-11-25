@@ -57,7 +57,7 @@ module.exports.changeUserData = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(BadRequest('Переданы некорректные данные при обновлении профиля.'));
       } else next(err);
     });
@@ -100,11 +100,5 @@ module.exports.getMe = (req, res, next) => {
       }
       res.status(200).send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(BadRequest('Переданы некорректные данные'));
-      } else if (err.message === 'NotFound') {
-        next(new NotFound('Пользователь не найден'));
-      } else next(err);
-    });
+    .catch((err) => next(err));
 };
