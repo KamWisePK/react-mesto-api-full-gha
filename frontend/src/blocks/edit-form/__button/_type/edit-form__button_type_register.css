@@ -1,0 +1,15 @@
+.edit-form__button_type_register {
+    border: none;
+    box-sizing: border-box;
+    color: #000;
+    cursor: pointer;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 186px 0 0;
+    min-height: 50px;
+    min-width: 358px;
+    padding: 0;
+    text-align: center;
+    background-color: white;
+}
