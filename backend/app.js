@@ -18,6 +18,8 @@ const { PORT, mestoDb } = require('./constants/config');
 const { validateRegister, validateLogin } = require('./validation/userValidation');
 const { createUser, login } = require('./controllers/users');
 
+const NotFoundError = require('./errors/NotFoundError');
+
 const app = express();
 app.use(express.json());
 
@@ -42,6 +44,9 @@ mongoose.connect(mestoDb, {});
 
 app.use(userRouter);
 app.use(cardRouter);
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Ошибка 404. Указанный маршрут не существует'));
+});
 
 app.use(errorLogger);
 

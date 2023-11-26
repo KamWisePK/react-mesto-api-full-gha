@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const BadRequest = require('../errors/BadRequestError');
 const NotFound = require('../errors/NotFoundError');
+const EmailUsed = require('../errors/EmailUsedError');
 const User = require('../models/user');
 const JWT_SECRET = require('../constants/config');
 
@@ -37,9 +38,15 @@ module.exports.createUser = (req, res, next) => {
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       email, password: hash, name, about, avatar,
-    })
-      .then((user) => res.status(201).send(user))
-      .catch(next));
+    }))
+    .then((user) => res.status(201).send(user))
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new EmailUsed('Email занят другим пользвоателем'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.changeUserData = (req, res, next) => {
